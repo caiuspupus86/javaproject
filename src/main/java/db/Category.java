@@ -2,27 +2,27 @@ package db;
 
 import za.co.neilson.sqlite.orm.annotations.PrimaryKey;
 
-public enum Category {
+import java.util.List;
 
-    MUSIQUE (1),
-    FILMS (2),
-    LIVRES (3),
-    JEUXVIDEO (4);
+public class Category {
 
-    @PrimaryKey (autoIncrement = true)
-    private int idCategory;
+    @PrimaryKey(autoIncrement = true)
+    private int id;
+    private String name;
 
-    private int number;
+    public Category() { }
 
-    Category(int number) {
-        this.number = number;
+    public Category(String name) {
+        this.name = name;
     }
 
-    public int getIdCategory() {
-        return idCategory;
+    public int getId() {
+        return id;
     }
 
-    public int getNumber() {
-        return number;
+    public String getName() {
+        return name;
     }
 }
+
+

@@ -31,7 +31,7 @@ public class DatabaseController {
     }
 
     public void read(){
-        String sql = "SELECT name FROM Category";
+        String sql = "SELECT * FROM Oeuvre WHERE idCategory=1";
 
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
@@ -39,7 +39,7 @@ public class DatabaseController {
 
             // loop through the result set
             while (rs.next()) {
-                System.out.println(rs.getString("name") + "\t");
+                System.out.println(rs.getString("titleOeuvre") + "\t");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

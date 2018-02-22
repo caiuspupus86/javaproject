@@ -10,6 +10,23 @@ public class Support {
 
     private String nameSupport;
 
+    public int getIdSupport() {
+        return idSupport;
+    }
+
+    public void setIdSupport(int idSupport) {
+        this.idSupport = idSupport;
+    }
+
+    public String getNameSupport() {
+        return nameSupport;
+    }
+
+    public void setNameSupport(String nameSupport) {
+        this.nameSupport = nameSupport;
+    }
+
     public Support() {
+
     }
 }

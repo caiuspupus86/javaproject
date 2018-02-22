@@ -4,7 +4,6 @@ import za.co.neilson.sqlite.orm.DatabaseDriverInterface;
 import za.co.neilson.sqlite.orm.DatabaseInfo;
 import za.co.neilson.sqlite.orm.DatabaseModel;
 import za.co.neilson.sqlite.orm.ObjectModel;
-import za.co.neilson.sqlite.orm.annotations.PrimaryKey;
 import za.co.neilson.sqlite.orm.jdbc.JdbcObjectModel;
 import za.co.neilson.sqlite.orm.jdbc.JdbcSqliteDatabaseDriverInterface;
 
@@ -13,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import static db.Category.FILMS;
 
 public class OeuvreDatabaseModel extends DatabaseModel<ResultSet, HashMap<String, Object>> {
 
@@ -34,11 +32,9 @@ public class OeuvreDatabaseModel extends DatabaseModel<ResultSet, HashMap<String
 
     @Override
     public void onRegisterObjectModels(HashMap<Type, ObjectModel<?,ResultSet,HashMap<String,Object>>> objectModels) throws ClassNotFoundException, NoSuchFieldException {
-        /*
-         * Tables Managed By This Model
-         */
-        // Register the ObjectModel for the Oeuvre class with the DatabaseModel
+
         objectModels.put(Support.class, new JdbcObjectModel<Support>(this) {});
+        objectModels.put(Category.class, new JdbcObjectModel<Category>(this) {});
         objectModels.put(Oeuvre.class, new JdbcObjectModel<Oeuvre>(this) {});
 
     }
@@ -57,24 +53,39 @@ public class OeuvreDatabaseModel extends DatabaseModel<ResultSet, HashMap<String
     @Override
     public void onInsertDefaultValues() {
 
-        Oeuvre film = new Oeuvre();
+        Category[] categories = new Category[]{
+                new Category("Films"),
+                new Category("Musique"),
+                new Category("Livres"),
+                new Category("Jeux-Vidéo")
+        };
+
+        Support dvd = new Support();
+        dvd.setNameSupport("DVD");
+        Support cd = new Support();
+        cd.setNameSupport("CD");
+
+        Film film = new Film();
         film.setTitleOeuvre("Pulp Fiction");
-        film.setCategory(FILMS);
         film.setEditionDate("1993");
+        film.setIdSupport(1);
+
+        Music musique = new Music();
+        musique.setTitleOeuvre("Know your ennemy");
+        musique.setEditionDate("1998");
+        musique.setIdSupport(2);
+
 
         try {
+            for (Category category : categories) {
+                getObjectModel(Category.class).insert(category);
+            }
+            getObjectModel(Support.class).insert(dvd);
+            getObjectModel(Support.class).insert(cd);
             getObjectModel(Oeuvre.class).insert(film);
+            getObjectModel(Oeuvre.class).insert(musique);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
-
-
-
-
-
 }
